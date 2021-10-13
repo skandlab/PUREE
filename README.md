@@ -44,8 +44,8 @@ cd PUREE
 
 ```shell
 python3 predict_purity.py --data_path input_matrix_path \
-						--output output_path \
-						[--gene_identifier_type {HGNC,ENSEMBL}]  # optional argument to specify gene id nomenclature
+			  --output output_path \
+		  	 [--gene_identifier_type {HGNC,ENSEMBL}]  # optional argument to specify gene id nomenclature
 ```
 
 ### Example usage
@@ -55,13 +55,13 @@ Included there are a couple of datasets as a sample on how to run PUREE
 ```shell
  # Chen et. al lung cancer data (see PUREE manuscript for details)
  python3 predict_purity.py --data_path data/test_data/Chen_et_al_norm_TPM_ENSG.tsv \
- 						 --output data/test_data/Chen_et_al_norm_TPM_ENSG_purities.tsv
+ 		 	   --output data/test_data/Chen_et_al_norm_TPM_ENSG_purities.tsv
 ```
 
 ```shell
   # Kim et. al gastric cancer data (see PUREE manuscript for details)
  python3 predict_purity.py --data_path data/test_data/Kim_et_al_FPKM.tsv \
- 						 --output data/test_data/Kim_et_al_FPKM_purities.tsv
+ 			   --output data/test_data/Kim_et_al_FPKM_purities.tsv
 ```
 
 ## Acknowledgements
