@@ -4,7 +4,7 @@ PUREE is a compact and fast method for predicting purity (cancer cell fraction) 
 
 ## Input
 
-For the input, PUREE requires a gene expression matrix. The normalization space can be potentially anything - from FPKM and TPM, to counts and microarray data. The matrix has to be oriented with samples as rows and genes as columns (*[samples, features]* shape). The gene ids can be in either HGNC or ENSEMBL ids.
+For the input, PUREE requires a gene expression matrix. The normalization space can be potentially anything - from FPKM and TPM, to counts and microarray data. The matrix has to be oriented with samples as rows and genes as columns (*[samples, features]* shape). The gene ids can be in either HGNC or ENSEMBL nomenclature.
 
 ## Output
 
