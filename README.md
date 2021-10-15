@@ -25,10 +25,10 @@ pandas
 joblib
 ```
 
-You can either install those manually, or run
+You can either install those manually, or run the command below to install all of them at once with pip:
 
 ```shell
-pip install -r requirements.txt 
+pip3 install -r requirements.txt 
 ```
 
 ### Running in command line
