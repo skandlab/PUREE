@@ -147,7 +147,8 @@ class PurityPredictor:
         model = self._model
         data = self.data
 
-        purities = model.predict(data.values)
+        # purities = model.predict(data.values)
+        purities = model.predict(data) # include feature names for the new version of sklearn
         purities_df = pd.DataFrame(
             purities, index=data.index, columns=['purity'])
 
