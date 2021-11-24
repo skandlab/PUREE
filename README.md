@@ -19,7 +19,7 @@ To run PUREE, you will need an access to UNIX-like command line and a Python 3 e
 The dependencies list for PUREE is really short and consists of Python 3 and packages
 
 ```
-sklearn
+scikit-learn
 numpy
 pandas
 joblib
