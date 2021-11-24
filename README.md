@@ -12,7 +12,7 @@ As an output, PUREE will return tumor purity values per every sample in the inpu
 
 ## Running PUREE
 
-To run PUREE, you will need an access to UNIX-like command line and a Python 3 environment. Additionally, you may need to install several dependencies.
+To run PUREE, you will need an access to UNIX-like command line and a Python 3 environment (ideally Python 3.7+). Additionally, you may need to install several dependencies.
 
 ### Dependencies
 
