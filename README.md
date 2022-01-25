@@ -1,6 +1,6 @@
 # PUREE
 
-PUREE is a compact and fast method for predicting purity (cancer cell fraction) from gene expression data.
+PUREE is a compact and fast method for predicting tumor purity (cancer cell fraction) from bulk gene expression data.
 
 ## Input
 
