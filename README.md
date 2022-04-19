@@ -1,6 +1,6 @@
 # PUREE
 
-PUREE is a compact and fast method for predicting purity (cancer cell fraction) from gene expression data.
+PUREE is a compact and fast method for predicting tumor purity (cancer cell fraction) from bulk gene expression data.
 
 ## Input
 
@@ -12,14 +12,14 @@ As an output, PUREE will return tumor purity values per every sample in the inpu
 
 ## Running PUREE
 
-To run PUREE, you will need an access to UNIX-like command line and a Python 3 environment. Additionally, you may need to install several dependencies.
+To run PUREE, you will need an access to UNIX-like command line and a Python 3 environment (ideally Python 3.7+). Additionally, you may need to install several dependencies.
 
 ### Dependencies
 
 The dependencies list for PUREE is really short and consists of Python 3 and packages
 
 ```
-sklearn
+scikit-learn
 numpy
 pandas
 joblib

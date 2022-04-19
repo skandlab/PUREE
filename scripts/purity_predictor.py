@@ -38,7 +38,7 @@ class PurityPredictor:
 
         # check if the shape is what we expect: samples x genes
         # if there are many more rows than columns, transpose the data
-        if len(self.data.index) > len(self.data.columns)*100:   # hardcoded matrix orientation check
+        if (len(self.data.index) > len(self.data.columns)*100) | ((len(self.data.index) >= 10000) & (len(self.data.columns) <= 5000)): # hardcoded matrix orientation check
             print('Looks like genes are supplied as rows instead of columns, transposing')
             self.data = self.data.T
 
