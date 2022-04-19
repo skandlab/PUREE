@@ -70,8 +70,8 @@ Included with the package there are a couple of data sets as a sample for how to
 
 ## Acknowledgements
 
-PUREE is developed by Egor Revkov in the lab of Computational Cancer Genomics of Anders Skanderup at the Genome Institute of Singapore.
+PUREE was developed by Egor Revkov at the lab of Computational Cancer Genomics under the supervision of Anders Skanderup at the Genome Institute of Singapore.
 
 PUREE is released under the Academic Free License and is free to use for academic research, but please cite it if you are using the method's results in your work. If you wish to use the method in the commercial application, contact the author at revkov.egor [at] gmail.com.
 
-If you have an issue running the method, feel free to raise an issue in this repository or write to the author of the package at the email mentioned above.
+If you run into a problem running the method, feel free to raise an issue in this repository or write to the author of the package at the email mentioned above.
