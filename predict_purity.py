@@ -21,12 +21,10 @@ SIGNIFICANT_GENES_MODEL_PATH = "models/pancancer/Lasso_log-rt_10000.joblib"
 STANDARD_SCALER_SELECTED_GENES_PATH = "models/pancancer/standard_scaler_pancancer_log-rt_170.joblib"
 STANDARD_SCALER_10000_GENES_PATH = "models/pancancer/standard_scaler_pancancer_log-rt_10000.joblib"
 
-IMPUTATION_DATA = "data/gene_expr_train_selected_genes.csv"
 VALUES_IMPUTER_PATH = 'models/pancancer/imputer_170.joblib'
 RANDOM_STATE = 93  # for the imputation reproducibility
 
 VARIANCE_THRESHOLD = 1.00015 # determined based on TCGA-train split
-
 
 # parsing the arguments
 def parse_args():
@@ -64,8 +62,6 @@ def main():
         standard_scaler_path = STANDARD_SCALER_SELECTED_GENES_PATH
 
         # arguments for the imputation
-        # imputation_data = IMPUTATION_DATA
-        # skip_complete = False # different in case of small and large gene sets
         values_imputer = load(VALUES_IMPUTER_PATH)
 
     print('Reading data from %s' % data_path)
