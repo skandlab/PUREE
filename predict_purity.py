@@ -3,7 +3,7 @@ import argparse
 
 import pandas as pd
 import numpy as np
-import joblib
+from joblib import load
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 
@@ -22,7 +22,10 @@ STANDARD_SCALER_SELECTED_GENES_PATH = "models/pancancer/standard_scaler_pancance
 STANDARD_SCALER_10000_GENES_PATH = "models/pancancer/standard_scaler_pancancer_log-rt_10000.joblib"
 
 IMPUTATION_DATA = "data/gene_expr_train_selected_genes.csv"
+VALUES_IMPUTER_PATH = 'models/pancancer/imputer_170.joblib'
 RANDOM_STATE = 93  # for the imputation reproducibility
+
+VARIANCE_THRESHOLD = 1.00015 # determined based on TCGA-train split
 
 
 # parsing the arguments
@@ -61,15 +64,16 @@ def main():
         standard_scaler_path = STANDARD_SCALER_SELECTED_GENES_PATH
 
         # arguments for the imputation
-        imputation_data = IMPUTATION_DATA
-        skip_complete = False
+        # imputation_data = IMPUTATION_DATA
+        # skip_complete = False # different in case of small and large gene sets
+        values_imputer = load(VALUES_IMPUTER_PATH)
 
     print('Reading data from %s' % data_path)
     predictor = PurityPredictor()
     predictor.read_data(data_path=data_path)
     predictor.clean_data(genes_identifiers_conversion_table_path, significantly_expressed_genes,
                          input_ids=gene_identifier_type)
-    predictor.data.loc[:, predictor.data.sum() == 0] = np.NaN  # remove genes with 0 variati on, they skew predictions
+    predictor.data.loc[:, predictor.data.sum() == 0] = np.NaN  # remove genes with 0 variation
     predictor.rank_normalize_data(mode='log', rank_method='max')  # log-rank first, filter for the smaller list later
     predictor.filter_gene_expression('keep_list', selected_genes_list)
     predictor.standartize_data(standard_scaler_path)
@@ -78,7 +82,7 @@ def main():
     # taking note of which genes are missing
     genes_na = np.intersect1d(predictor.data.columns[pd.isna(predictor.data.var())],
                               selected_genes_list)
-    print('%s missing genes:' % len(genes_na), *genes_na)
+    # print('%s missing genes' % len(genes_na), *genes_na)  # reducing verbocity
 
     if len(genes_na) == predictor.data.columns.shape[0]:
         sys.exit('ERROR: All of the selected genes are missing from the data, exiting... '
@@ -86,15 +90,10 @@ def main():
 
     # missing values imputation
     print('Starting imputation...')
-    predictor_imp = PurityPredictor()
-    predictor_imp.read_data(imputation_data)
 
-    var_th = predictor_imp.data.var().max()
+    var_th = VARIANCE_THRESHOLD
     predictor.data.loc[:, predictor.data.var() > 3 * var_th] = np.NaN  # removing suspiciously high values
 
-    values_imputer = IterativeImputer(tol=0.001, sample_posterior=False,
-                               skip_complete=skip_complete, max_iter=10, random_state=RANDOM_STATE)
-    values_imputer.fit(predictor_imp.data)
     imputed_values = values_imputer.transform(predictor.data)
     to_predict_imputed = pd.DataFrame(imputed_values, index=predictor.data.index, columns=predictor.data.columns)
     predictor.data = to_predict_imputed
