@@ -3,7 +3,7 @@ import requests
 import time
 import os
 import pandas as pd
-BASE_URL = 'http://puree.genome.sg/server'
+BASE_URL = 'https://puree.genome.sg/server'
 
 # Monitor the health of the backend
 # Desired Output: "Server running successfully"
@@ -97,8 +97,6 @@ class Puree: # rename to PUREE
                 c+=10
             except:
                 return response
-                break
-
         return False
 
     def get_logs(self, id):
@@ -115,9 +113,18 @@ class Puree: # rename to PUREE
         except:
             return False
 
+    def process_output(self, t):
+        # print(t)
+        t = 'sample_name'+t
+        t = t.split('\n')
+        t = list(map(lambda x: x.split('\t'), t))
+        t = t[:-1]
+        d = pd.DataFrame(t[1:], columns=t[0])
+        return d
+
     def get_output(self, file_path, gene_identifier_type, run_mode, verbose=True):
         file_output = self.submit_file(file_path, gene_identifier_type=gene_identifier_type, run_mode=run_mode)
-        print(file_output)
+        # print(file_output)
         if file_output[1] is not None:
             return False, file_output[1]
         else:
@@ -128,8 +135,8 @@ class Puree: # rename to PUREE
                 if verbose:
                     print(f"**********LOGS FOR {file_path}**********")
                     print(logs_output.text)
-                return {"output": processed_output.text, 'logs':logs_output.text}
+                return {"output": self.process_output(processed_output.text), 'logs':logs_output.text}
         return False, "Error"
 
 # p = Puree()
-# p.get_output(TEST_DATA_PATH, 'ENSEMBL', 'PUREE_genes')
+# print(p.get_output(TEST_DATA_PATH, 'ENSEMBL', 'PUREE_genes'))
