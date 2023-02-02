@@ -7,7 +7,7 @@ BASE_URL = 'https://puree.genome.sg/server'
 
 # Monitor the health of the backend
 # Desired Output: "Server running successfully"
-TEST_DATA_PATH = r'D:\tanmay\egor\PUREE-main\data\test_data\Chen_et_al_norm_TPM_ENSG.tsv'
+# TEST_DATA_PATH = r'D:\tanmay\egor\PUREE-main\data\test_data\Chen_et_al_norm_TPM_ENSG.tsv'
 TEMP_FILE_DIR = r'tmp_dir'
 if not os.path.exists(TEMP_FILE_DIR):
     os.makedirs(TEMP_FILE_DIR)
@@ -18,6 +18,13 @@ class Puree: # rename to PUREE
         pass
     
     def monitor(self):
+        """
+        Monitor the health of the backend.
+        Returns:
+            True: If the server is running successfully.
+            False: If there is an error with the server.
+        """
+
         monitor_url = BASE_URL + '/monitor'
         response = requests.get(monitor_url)
         if response.status_code != 200:
@@ -27,6 +34,15 @@ class Puree: # rename to PUREE
         return True
 
     def check_and_correct_file(self, file_path, verbose=True):
+        """
+        Check and correct the given file if necessary.
+        Args:
+            file_path: path to the file to be processed.
+            verbose: If set to True, will print any relevant messages.
+        Returns:
+            The corrected file path.
+        """
+
         if not (file_path.endswith(".tsv") or file_path.endswith('.csv') or file_path.endswith(".txt")):
             return False
         if file_path.endswith(".tsv") or file_path.endswith(".txt"):
@@ -57,15 +73,24 @@ class Puree: # rename to PUREE
         else:
             return file_path
 
-    def submit_file(self, file_path, gene_identifier_type='ENSEMBL', run_mode='PUREE_genes'):
-        '''
-        Submit a file for PUREE processing
-        Outputs:
+    def submit_file(self, file_path, email_id, gene_identifier_type='ENSEMBL'):
+
+        """
+        Submit a file for PUREE processing.
+        Args:
+            file_path: path to the file to be processed.
+            gene_identifier_type: type of gene identifier used in the file. Can be ENSEMBL/HNSC (defaults to ENSEMBL).
+        Returns:
+            A tuple with the following information:
+            success: Boolean indicating if the file was submitted successfully or not.
+            message: String message with additional information.
+        Sample Outputs:
             File submitted for processing successfully
                 {'id': '781ed18b-5754-4b03-b9cf-4c8049792a75', 'success': True}
             File submission failed
                 {'id': '781ed18b-5754-4b03-b9cf-4c8049792a75', 'success': False}
-        '''
+        """
+
         try:
             if not (file_path.endswith(".tsv") or file_path.endswith('.csv') or file_path.endswith(".txt")):
                 return False, "Not a compatible file. Please upload .txt/.tsv/.csv file"
@@ -73,7 +98,7 @@ class Puree: # rename to PUREE
             if not final_file_path:
                 return False, "Check the file type"
             submit_url = BASE_URL + '/main'
-            data = {'gene_identifier_type': gene_identifier_type, 'run_mode': run_mode, 'email_id': 'asdfklj@asddf.com'}
+            data = {'gene_identifier_type': gene_identifier_type, 'run_mode': 'PUREE_genes', 'email_id': email_id}
             files = {'file': open(final_file_path, 'r')}
             response = requests.post(submit_url, files=files, data=data)
             return response, None
@@ -81,12 +106,22 @@ class Puree: # rename to PUREE
             return False, e
 
     def puree_output(self, id):
-        '''
-        Get the processed output from PUREE
-        Outputs:
-            text output OR
-            {'success': 'False', 'message': Reason for False Success}
-        '''
+
+        """
+        Get the processed output from PUREE.
+        
+        Parameters:
+            id (int): The ID of the processed file.
+        
+        Returns:
+            text output if successful OR
+            dict: {'success': 'False', 'message': Reason for False Success}
+                if the request fails.
+        
+        Raises:
+            None
+        """
+
         file_url = BASE_URL + '/get_file?id={}'
         c = 0
         while c<200:
@@ -113,17 +148,44 @@ class Puree: # rename to PUREE
         except:
             return False
 
-    def process_output(self, t):
-        # print(t)
-        t = 'sample_name'+t
-        t = t.split('\n')
-        t = list(map(lambda x: x.split('\t'), t))
-        t = t[:-1]
-        d = pd.DataFrame(t[1:], columns=t[0])
+    def process_output(self, str):
+        """
+        Processes the input text and returns a Pandas DataFrame.
+
+        Parameters:
+        t (str) : The input text to be processed.
+
+        Returns:
+        Pandas DataFrame : The processed output in a tabular format.
+
+        Example:
+        >>> process_output("col1\\tcol2\\nval1\\tval2")
+        """
+        str = 'sample_name'+str
+        str = str.split('\n')
+        str = list(map(lambda x: x.split('\t'), str))
+        str = str[:-1]
+        d = pd.DataFrame(str[1:], columns=str[0])
         return d
 
-    def get_output(self, file_path, gene_identifier_type, run_mode, verbose=True):
-        file_output = self.submit_file(file_path, gene_identifier_type=gene_identifier_type, run_mode=run_mode)
+    def get_output(self, file_path, gene_identifier_type, verbose=True):
+        """
+        Get the processed output and logs for a given file.
+        
+        Arguments:
+            file_path (str): Path to the input file.
+            gene_identifier_type (str): Type of gene identifier used in the input file.
+            verbose (bool, optional): If set to True, the logs for the file processing will be printed. Defaults to True.
+            
+        Returns:
+            dict or tuple: A dictionary containing processed output and logs OR a tuple with False and error message.
+            The dictionary has two keys:
+                'output': A pandas dataframe containing processed output from file.
+                'logs': Logs for the file processing in text format.
+            
+        In case of an error, a tuple with False and error message is returned.
+        """
+        file_output = self.submit_file(file_path, gene_identifier_type=gene_identifier_type)
         # print(file_output)
         if file_output[1] is not None:
             return False, file_output[1]
@@ -139,4 +201,4 @@ class Puree: # rename to PUREE
         return False, "Error"
 
 # p = Puree()
-# print(p.get_output(TEST_DATA_PATH, 'ENSEMBL', 'PUREE_genes'))
+# print(p.get_output(TEST_DATA_PATH, 'ENSEMBL'))
