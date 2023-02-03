@@ -79,7 +79,7 @@ class Puree: # rename to PUREE
         Submit a file for PUREE processing.
         Args:
             file_path: path to the file to be processed.
-            gene_identifier_type: type of gene identifier used in the file. Can be ENSEMBL/HNSC (defaults to ENSEMBL).
+            gene_identifier_type: type of gene identifier used in the file. Can be ENSEMBL/HGNC (defaults to ENSEMBL).
         Returns:
             A tuple with the following information:
             success: Boolean indicating if the file was submitted successfully or not.
