@@ -32,9 +32,9 @@ purities = p.get_output(test_data_path, gene_id_nomenclature, email)
 ```
 where
 
-test_data_path (string) - path to the gene expression matrix in .tsv, .csv or .parquet
-gene_id_nomenclature (string) - gene ids nomenclature: 'ENSEMBL' or 'HGNC
-email (string) - your academic email
+test_data_path (string) - path to the gene expression matrix in .tsv, .csv or .parquet<br/>
+gene_id_nomenclature (string) - gene ids nomenclature: 'ENSEMBL' or 'HGNC<br/>
+email (string) - your academic email<br/>
 
 ## Input
 
@@ -43,8 +43,8 @@ PUREE expects a gene expression matrix as input, in any normalization space, pre
 More specifically, the expected input would schematically look like this
 
             gene_id_1	gene_id_2
-sample_id_1      10      	1
-sample_id_2	     0	        10
+sample_id_1      10      	1<br/>
+sample_id_2	     0	        10<br/>
 
 ## Output
 The output of PUREE is a .tsv file with tumor purities in the first column along with any logs that puree generates.
