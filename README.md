@@ -33,8 +33,9 @@ purities = p.get_output(test_data_path, gene_id_nomenclature, email)
 where
 
 variable	description
+
 test_data_path	string; path to the gene expression matrix in .tsv, .csv or .parquet
-gene_id_nomenclature	string; gene ids nomenclature: 'ENSEMBL' or 'HGNC'
+gene_id_nomenclature	string; gene ids nomenclature: 'ENSEMBL' or 'HGNC
 email	string; your academic email
 
 ## Input
