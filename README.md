@@ -21,20 +21,18 @@ pandas
 ## Installing and running PUREE
 To install PUREE, run
 
-```bash
-git clone https://github.com/skandlab/PUREE
-cd PUREE
-python setup.py bdist_wheel
-pip install dist/puree-0.1.0-py3-none.any.whl --force-reinstall # this can be installed in the environment of your choice
-```
+1. git clone https://github.com/skandlab/PUREE
+2. cd PUREE
+3. python setup.py bdist_wheel
+4. pip install dist/PUREE-0.1.0-py3-none-any.whl --force-reinstall # this can be installed in the environment of your choice
 
 Now you can use PUREE in your Python environment:
 
-```python
-from puree_api import *
+```
+from puree import *
 
 p = PUREE()
-purities = p.get_output(test_data_path, gene_id_nomenclature, email)
+purities_and_logs = p.get_output(test_data_path, gene_id_nomenclature, email)
 ```
 where
 
@@ -61,6 +59,7 @@ More specifically, the expected input would schematically look like this
 
 ## Output
 The output of PUREE is a .tsv file with tumor purities in the first column along with any logs that puree generates.
-
+Example:
+{"output": purity dataframe, "logs": PUREE logs}
 _Note: the sample names will be anonymized. However, the purities are returned in the same order as the samples in the input._
 
