@@ -150,7 +150,7 @@ class PUREE:
         Processes the input text and returns a Pandas DataFrame.
 
         Parameters:
-        t (str) : The input text to be processed.
+        str (str) : The input text to be processed.
 
         Returns:
         Pandas DataFrame : The processed output in a tabular format.
@@ -158,11 +158,12 @@ class PUREE:
         Example:
         >>> process_output("col1\\tcol2\\nval1\\tval2")
         """
-        str = 'sample_name'+str
         str = str.split('\n')
         str = list(map(lambda x: x.split('\t'), str))
         str = str[:-1]
         d = pd.DataFrame(str[1:], columns=str[0])
+        d.index = d[d.columns.tolist()[0]]
+        d = d.drop([d.columns.tolist()[0]], axis=1)
         return d
 
     def get_output(self, file_path, gene_identifier_type, email_id, verbose=True):
