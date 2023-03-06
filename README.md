@@ -23,7 +23,7 @@ To install PUREE, run
 
 1. git clone https://github.com/skandlab/PUREE
 2. cd PUREE
-3. python setup.py bdist_wheel
+3. python3 setup.py bdist_wheel
 4. pip install dist/PUREE-0.1.0-py3-none-any.whl --force-reinstall # this can be installed in the environment of your choice
 
 Now you can use PUREE in your Python environment:
