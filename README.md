@@ -1,7 +1,7 @@
 # PUREE (Python API)
 
 ## Introduction
-PUREE is a compact and fast method for predicting tumor purity (cancer cell fraction) from bulk gene expression data. The methodology and the validation process is described in the preprint [Accurate pan-cancer tumor purity estimation from gene expression data](https://www.biorxiv.org/content/10.1101/2022.06.01.494462v1). PUREE is also available as a [web service](https://puree.genome.sg).
+PUREE is a compact and fast method for predicting tumor purity (cancer cell fraction) from bulk gene expression data. The methodology and the validation process is described in the paper [PUREE: accurate pan-cancer tumor purity estimation from gene expression data](https://doi.org/10.1038/s42003-023-04764-8). PUREE is also available as a web service at [https://puree.genome.sg](https://puree.genome.sg). If you would like an access to the PUREE's backend code, please contact the corresponding author of the paper.
 
 The PUREE class is a wrapper class that exposes functionality to interact with the PUREE code. The class allows you to monitor the health of the backend, submit a file for processing, and get the logs and puree-processed output.
 
