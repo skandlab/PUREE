@@ -70,7 +70,7 @@ class PUREE:
         else:
             return file_path
 
-    def submit_file(self, file_path, email_id, gene_identifier_type='ENSEMBL'):
+    def submit_file(self, file_path, gene_identifier_type='ENSEMBL'):
 
         """
         Submit a file for PUREE processing.
@@ -95,7 +95,7 @@ class PUREE:
             if not final_file_path:
                 return False, "Check the file type"
             submit_url = BASE_URL + '/main'
-            data = {'gene_identifier_type': gene_identifier_type, 'run_mode': 'PUREE_genes', 'email_id': email_id, "file_name": os.path.basename(file_path)}
+            data = {'gene_identifier_type': gene_identifier_type, 'run_mode': 'PUREE_genes', "file_name": os.path.basename(file_path)}
             files = {'file': open(final_file_path, 'r')}
             response = requests.post(submit_url, files=files, data=data)
             return response, None
@@ -166,7 +166,7 @@ class PUREE:
         d = d.drop([d.columns.tolist()[0]], axis=1)
         return d
 
-    def get_output(self, file_path, gene_identifier_type, email_id, verbose=True):
+    def get_output(self, file_path, gene_identifier_type, verbose=True):
         """
         Get the processed output and logs for a given file.
         
@@ -183,7 +183,7 @@ class PUREE:
             
         In case of an error, a tuple with False and error message is returned.
         """
-        file_output = self.submit_file(file_path, email_id, gene_identifier_type=gene_identifier_type)
+        file_output = self.submit_file(file_path, gene_identifier_type=gene_identifier_type)
         if file_output[1] is not None:
             return False, file_output[1]
         else:
