@@ -32,7 +32,7 @@ Now you can use PUREE in your Python environment:
 from puree import *
 
 p = PUREE()
-purities_and_logs = p.get_output(test_data_path, gene_id_nomenclature, email)
+purities_and_logs = p.get_output(test_data_path, gene_id_nomenclature)
 ```
 where
 
@@ -40,13 +40,12 @@ where
 | -------------------- | ------------------------------------------------------------ |
 | test_data_path       | string; path to the gene expression matrix in .tsv, .csv or .parquet |
 | gene_id_nomenclature | string; gene ids nomenclature: 'ENSEMBL' or 'HGNC'           |
-| email                | string; your academic email                                  |
 
 
 
 ## Input
 
-PUREE expects a gene expression matrix as input, in any normalization space, preferably oriented with genes as columns and samples as rows. Gene IDs are accepted in either HGNC or ENSEMBL nomenclature. We additionally require an institute-associated (academic) email to be provided with the job submission.
+PUREE expects a gene expression matrix as input, in any normalization space, preferably oriented with genes as columns and samples as rows. Gene IDs are accepted in either HGNC or ENSEMBL nomenclature.
 
 More specifically, the expected input would schematically look like this
 
