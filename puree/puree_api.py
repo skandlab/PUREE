@@ -51,10 +51,10 @@ class PUREE:
             for i in cols[1:]:
                 if not (i.startswith("sample") or i.startswith("Sample")):
                     df.columns = [cols[0]]+[f'Sample_{i}' for i in range(1, len(cols))]
-                    df.to_csv(os.path.join(TEMP_FILE_DIR, file_path[:-4]+'.tsv'), sep='\t', index=False)
+                    df.to_csv(os.path.join(TEMP_FILE_DIR, os.path.basename(file_path)[:-4]+'.tsv'), sep='\t', index=False)
                     if verbose:
                         print("Sample names were not encrypted... Encryption is completed.")
-                    return os.path.join(TEMP_FILE_DIR, file_path[:-4]+".tsv")
+                    return os.path.join(TEMP_FILE_DIR, os.path.basename(file_path)[:-4]+".tsv")
         else:
             sample_names = df[cols[0]].tolist()
             for i in sample_names:
