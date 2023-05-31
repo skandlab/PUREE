@@ -9,10 +9,6 @@ The PUREE class is a wrapper class that exposes functionality to interact with t
 This package has the following dependencies
 
 ```
-cProfile
-requests
-time
-os
 pandas
 ```
 
