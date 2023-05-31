@@ -9,7 +9,7 @@ The PUREE class is a wrapper class that exposes functionality to interact with t
 This package has the following dependencies
 
 ```
-pandas
+pandas==1.5.3
 ```
 
 
