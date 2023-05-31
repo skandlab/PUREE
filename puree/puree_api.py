@@ -198,5 +198,6 @@ class PUREE:
                     print(logs_output.text)
                 return {"output": self.process_output(processed_output.text), 'logs':logs_output.text}
             else:
+                print(f"****Error****\n{processed_output}")
                 return False, processed_output
         return False, "Error"
