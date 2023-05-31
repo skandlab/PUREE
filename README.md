@@ -10,6 +10,7 @@ This package has the following dependencies
 
 ```
 pandas==1.5.3
+requests==2.28.2
 ```
 
 
