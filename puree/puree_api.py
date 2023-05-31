@@ -60,13 +60,13 @@ class PUREE:
             for i in sample_names:
                 if not (i.startswith("sample") or i.startswith("Sample")):
                     df[cols[0]] = [f'Sample_{i}' for i in range(1, len(df)+1)]
-                    df.to_csv(os.path.join(TEMP_FILE_DIR, file_path[:-4]+'.tsv'), sep='\t', index=False)
+                    df.to_csv(os.path.join(TEMP_FILE_DIR, os.path.basename(file_path)[:-4]+'.tsv'), sep='\t', index=False)
                     if verbose:
                         print("Sample names were not encrypted... Encryption is completed.")
-                    return os.path.join(TEMP_FILE_DIR, file_path[:-4]+".tsv")
+                    return os.path.join(TEMP_FILE_DIR, os.path.basename(file_path)[:-4]+".tsv")
         if file_path.endswith(".csv") or file_path.endswith(".txt"):
-            df.to_csv(os.path.join(TEMP_FILE_DIR, file_path[:-4]+'.tsv'), sep='\t', index=False)
-            return os.path.join(TEMP_FILE_DIR, file_path[:-4]+".tsv")
+            df.to_csv(os.path.join(TEMP_FILE_DIR, os.path.basename(file_path)[:-4]+'.tsv'), sep='\t', index=False)
+            return os.path.join(TEMP_FILE_DIR, os.path.basename(file_path)[:-4]+".tsv")
         else:
             return file_path
 
@@ -95,7 +95,7 @@ class PUREE:
             if not final_file_path:
                 return False, "Check the file type"
             submit_url = BASE_URL + '/main'
-            data = {'gene_identifier_type': gene_identifier_type, 'run_mode': 'PUREE_genes', "file_name": os.path.basename(file_path)}
+            data = {'gene_identifier_type': gene_identifier_type, 'run_mode': 'PUREE_genes', "file_name": os.path.basename(final_file_path)}
             files = {'file': open(final_file_path, 'r')}
             response = requests.post(submit_url, files=files, data=data)
             return response, None
@@ -121,15 +121,17 @@ class PUREE:
 
         file_url = BASE_URL + '/get_file?id={}'
         c = 0
+        error = None
         while c<200:
             try:
                 response = requests.get(file_url.format(id))
-                response.json()
+                x = response.json()
                 time.sleep(10)
                 c+=10
+                error = x['error'] 
             except:
-                return response
-        return False
+                return True, response
+        return False, error 
 
     def get_logs(self, id):
         '''
@@ -188,11 +190,13 @@ class PUREE:
             return False, file_output[1]
         else:
             id = file_output[0].json()['id']
-            processed_output = self.puree_output(id)
-            if processed_output:
+            success, processed_output = self.puree_output(id)
+            if success:
                 logs_output = self.get_logs(id)
                 if verbose:
                     print(f"**********LOGS FOR {file_path}**********")
                     print(logs_output.text)
                 return {"output": self.process_output(processed_output.text), 'logs':logs_output.text}
+            else:
+                return False, processed_output
         return False, "Error"
