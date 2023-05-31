@@ -6,7 +6,7 @@ PUREE is a compact and fast method for predicting tumor purity (cancer cell frac
 The PUREE class is a wrapper class that exposes functionality to interact with the PUREE code. The class allows you to monitor the health of the backend, submit a file for processing, and get the logs and puree-processed output.
 
 ## Requirements
-This package has the following dependencies
+This package is tested on python versions above `3.8`. In addition, it has the following dependencies
 
 ```
 pandas==1.5.3
