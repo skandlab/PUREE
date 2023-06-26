@@ -129,6 +129,8 @@ class PUREE:
                 time.sleep(10)
                 c+=10
                 error = x['error'] 
+                if 'ERROR' in error.upper():
+                    return False, error
             except:
                 return True, response
         return False, error 
