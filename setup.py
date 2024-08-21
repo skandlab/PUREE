@@ -6,5 +6,5 @@ setup(
     description='Puree offline usage API',
     author='SkanderupLab',
     license='MIT',
-    install_requires=['requests==2.28.2', 'pandas==1.5.3']
+    install_requires=['requests==2.28.2', 'pandas==2.2', 'numpy==1.22.4']
 )
